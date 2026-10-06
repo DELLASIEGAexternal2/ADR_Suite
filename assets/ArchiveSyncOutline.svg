@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 420 280">
+
+  <defs>
+    <linearGradient id="dbGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2B6CB0"/>
+      <stop offset="100%" stop-color="#63B3ED"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Corps -->
+  <path d="
+    M110 50
+    C110 35, 310 35, 310 50
+    L310 165
+    C310 180, 110 180, 110 165
+    Z"
+    fill="url(#dbGrad)"/>
+
+  <!-- Dessus -->
+  <ellipse cx="210" cy="50" rx="100" ry="25"
+           fill="url(#dbGrad)"
+           stroke="#1E4E8C"
+           stroke-width="2"/>
+
+  <!-- Strie 1 -->
+  <ellipse cx="210" cy="78" rx="100" ry="25"
+           fill="none"
+           stroke="#1E4E8C"
+           stroke-width="2"/>
+
+  <!-- Strie 2 -->
+  <ellipse cx="210" cy="106" rx="100" ry="25"
+           fill="none"
+           stroke="#1E4E8C"
+           stroke-width="2"/>
+
+  <!-- Strie 3 -->
+  <ellipse cx="210" cy="134" rx="100" ry="25"
+           fill="none"
+           stroke="#1E4E8C"
+           stroke-width="2"/>
+
+  <!-- Strie 4 -->
+  <ellipse cx="210" cy="162" rx="100" ry="25"
+           fill="none"
+           stroke="#1E4E8C"
+           stroke-width="2"/>
+
+  <!-- Texte -->
+  <text x="210"
+        y="240"
+        text-anchor="middle"
+        font-family="Segoe UI"
+        font-size="32"
+        font-weight="600"
+        fill="#222">
+      Mes Archives
+  </text>
+
+</svg>

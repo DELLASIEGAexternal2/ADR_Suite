@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADR Outlook Suite</title>
+<script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Segoe UI",Segoe UI Web, -apple-system, sans-serif;background:#f5f5f5;color:#242424;height:100vh}
+  .header{background:#0f6cbd;color:white;padding:16px 20px;display:flex;align-items:center;gap:12px}
+  .header h1{font-size:18px;font-weight:600}
+  .header .badge{background:rgba(255,255,255,0.2);padding:2px 8px;border-radius:12px;font-size:11px}
+  .user-bar{background:white;padding:12px 20px;border-bottom:1px solid #e1e1e1;font-size:12px;display:flex;justify-content:space-between}
+  .user-bar .dot{width:8px;height:8px;background:#107c10;border-radius:50%;display:inline-block;margin-right:6px}
+  .container{padding:20px}
+  .container h2{font-size:16px;margin-bottom:16px;font-weight:600;color:#323130}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .card{
+    height:78px;
+    border:1px solid #d1d1d1;
+    background:white;
+    cursor:pointer;
+    font-weight:600;
+    font-size:12px;
+    border-radius:4px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
+    transition:all 0.15s;
+    box-shadow:0 1px 2px rgba(0,0,0,0.05);
+    position:relative;
+  }
+  .card .icon{font-size:22px}
+  .card .label{font-size:11px;text-align:center;line-height:1.2}
+  .card:hover{background:#eef6ff;border-color:#0f6cbd;transform:translateY(-1px);box-shadow:0 4px 8px rgba(15,108,189,0.15)}
+  .card:active{transform:translateY(0)}
+  .card .status{position:absolute;top:6px;right:6px;width:6px;height:6px;border-radius:50%}
+  .status.ok{background:#107c10}
+  .status.wip{background:#ffaa44}
+  .status.new{background:#0f6cbd}
+  .detail{margin-top:20px;background:white;border:1px solid #e1e1e1;border-radius:4px;padding:16px;display:none}
+  .detail.active{display:block;animation:slide 0.2s}
+  @keyframes slide{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .detail h3{font-size:14px;margin-bottom:8px}
+  .detail p{font-size:12px;color:#605e5c;line-height:1.5}
+  .detail .apis{margin-top:10px;display:flex;gap:6px;flex-wrap:wrap}
+  .detail .apis span{background:#f3f2f1;border:1px solid #edebe9;padding:2px 6px;border-radius:2px;font-size:10px;font-family:Consolas}
+  .footer{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #e1e1e1;padding:8px 20px;font-size:10px;color:#8a8886;text-align:center;opacity:0.6}
+  .footer strong{color:#0f6cbd}
+</style>
+</head>
+<body>
+  <div class="header">
+    <div style="width:32px;height:32px;background:white;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px">🏦</div>
+    <div>
+      <h1>ADR Outlook Suite</h1>
+      <div class="badge">V1 • Web Add-in • New Outlook compatible</div>
+    </div>
+  </div>
+  <div class="user-bar">
+    <span><span class="dot"></span><span id="userEmail">Chargement...</span></span>
+    <span style="color:#107c10">● Entra ID + FBI SSO</span>
+  </div>
+
+  <div class="container">
+    <h2>Portail Outlook Banque de France</h2>
+    <div class="grid">
+      <button class="card" onclick="showModule('herisson')"><span class="status ok"></span><span class="icon">🛡️</span><span class="label">Hérisson<br>Signalement</span></button>
+      <button class="card" onclick="showModule('mailing')"><span class="status wip"></span><span class="icon">📧</span><span class="label">Mailing</span></button>
+      <button class="card" onclick="showModule('retour')"><span class="status wip"></span><span class="icon">📬</span><span class="label">Retour<br>Mailing</span></button>
+
+      <button class="card" onclick="showModule('archives')"><span class="status ok"></span><span class="icon">🗄️</span><span class="label">Mes Archives</span></button>
+      <button class="card" onclick="showModule('quiestce')"><span class="status ok"></span><span class="icon">👤</span><span class="label">QuiEstCe<br>Teams</span></button>
+      <button class="card" onclick="showModule('absences')"><span class="status ok"></span><span class="icon">📅</span><span class="label">Recherche<br>Absence</span></button>
+
+      <button class="card" onclick="showModule('syndicats')"><span class="status wip"></span><span class="icon">👥</span><span class="label">Syndicats</span></button>
+      <button class="card" onclick="showModule('deconnexion')"><span class="status wip"></span><span class="icon">🕒</span><span class="label">Déconnexion</span></button>
+      <button class="card" onclick="showModule('signature')"><span class="status new"></span><span class="icon">✍️</span><span class="label">Signature<br>Chiffrement</span></button>
+    </div>
+
+    <div id="detail" class="detail">
+      <h3 id="detailTitle"></h3>
+      <p id="detailDesc"></p>
+      <div class="apis" id="detailApis"></div>
+      <div style="margin-top:12px"><button onclick="document.getElementById('detail').classList.remove('active')" style="padding:6px 12px;border:1px solid #d1d1d1;background:white;border-radius:2px;cursor:pointer;font-size:11px">Fermer</button></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <strong>Nouveau</strong> • ADR Outlook Suite • Web Add-in • Entra ID + FBI • Catalyse / bdf-nginx • VIP intern-tlwrk-mobil-waccs • Graph Mail.Read Calendars.Read Presence.Read.All
+  </div>
+
+<script>
+  Office.onReady(info => {
+    if(info.host===Office.HostType.Outlook){
+      const email = Office.context.mailbox.userProfile.emailAddress || "Primo.DELLASIEGA@banque-france.fr";
+      document.getElementById("userEmail").textContent = email;
+    }
+  });
+
+  const modules = {
+    herisson: {title:"📧 Hérisson - Signalement courriels suspects", desc:"VSTO actuel: Bouton Ruban Explorer + COM MailItem + envoi BAL CERT via System.IO + BackgroundWorker. Cible Web Add-in: Office.context.mailbox.item + Office.js getAttachmentContentAsync + Graph POST /me/sendMail vers SOC. Risque FS local impossible → stockage cloud.", apis:["Office.context.mailbox.item","Graph POST /sendMail","getAttachmentContentAsync","Mail.ReadWrite","Mail.Send"]},
+    mailing: {title:"📨 Mailing - Personnalisation", desc:"Outil de personnalisation de courriels et PJ. VSTO: Interop Excel + Word + MailItem. Cible: displayNewMessageForm() + Graph Mail.Send + OneDrive/SharePoint pour PJ. Template moteur côté backend.", apis:["displayNewMessageForm","Graph POST /sendMail","OneDrive upload","Mail.Send"]},
+    retour: {title:"📬 Retour Mailing - Classement", desc:"Classement retours dans différentes catégories (NPAI, désabonnement, réponse). VSTO: scan dossier + règles. Cible: Graph GET /messages?$filter + GET /mailFolders + Power Automate pour tri automatique.", apis:["GET /messages","GET /mailFolders","Power Automate"]},
+    archives: {title:"🗄️ Mes Archives - PST -> Online", desc:"Rapatriement en local des archives PST et montage client lourd. VSTO: MAPI + PST. Cible: Fin PST - bascule Online Archive + Purview Retention + affichage état via Office.context.mailbox.userProfile.emailAddress.", apis:["userProfile.emailAddress","Online Archive","Purview"]},
+    quiestce: {title:"👤 QuiEstCe - Statut Teams", desc:"Récupération profil + présence Teams + groupes. VSTO: Process.Start(QuiEstCe.exe) + LDAP. Cible: Graph GET /users/{id}/presence + /manager + /transitiveMembers. Protocole bdf-quiestce:// pour compat EXE si besoin.", apis:["GET /users/{id}/presence","GET /users","transitiveMembers","Presence.Read.All","bdf-quiestce://"]},
+    absences: {title:"📅 Recherche Absences", desc:"Récupération absences calendrier Outlook. VSTO: EWS GetUserAvailability (coupé 01/10/2026). Cible: Graph POST /me/calendar/getSchedule + findMeetingTimes + Places API pour salles.", apis:["POST /getSchedule","POST /findMeetingTimes","GET /places/room","Calendars.Read","Places.Read.All"]},
+    syndicats: {title:"👥 Syndicats - Listes diffusion", desc:"Établissement listes diffusion syndicats à partir liste Agents et désinscriptions (RGPD). VSTO: LINQ System.IO. Cible: Upload SharePoint + Azure Function filtrage + Graph GET /groups/members + création diffusion.", apis:["GET /groups","GET /groups/members","SharePoint List","RGPD DLP"]},
+    deconnexion: {title:"🕒 Droit Déconnexion", desc:"Contrôle horaires envoi courriels client lourd. VSTO: Interception MailItem.Send COM. Impossible en Office.js (pas d'interception globale). Cible: Graph + backend + Transport Rules EXO + Purview DLP pour HNO.", apis:["Transport Rules","Purview DLP","Graph Mail.Send","Backend HNO"]},
+    signature: {title:"✍️ Signature & Chiffrement", desc:"Paramétrage client lourd Outlook pour chiffrement + déport boutons bandeau nouveau mail. VSTO: Registre + Certificats. Cible: service PKI central + API sécurisée + Intune S/MIME + UI Web Add-in pour commande.", apis:["PKI API","Intune S/MIME","Exchange S/MIME","Graph"]},
+  };
+
+  function showModule(key){
+    const m = modules[key];
+    document.getElementById("detailTitle").textContent = m.title;
+    document.getElementById("detailDesc").textContent = m.desc;
+    document.getElementById("detailApis").innerHTML = m.apis.map(a=>`<span>${a}</span>`).join("");
+    document.getElementById("detail").classList.add("active");
+    document.getElementById("detail").scrollIntoView({behavior:"smooth"});
+  }
+</script>
+</body>
+</html>

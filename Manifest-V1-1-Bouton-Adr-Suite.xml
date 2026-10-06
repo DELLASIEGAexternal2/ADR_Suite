@@ -4,12 +4,12 @@
           xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
           xmlns:ov="http://schemas.microsoft.com/office/mailappversionoverrides/1.0"
           xsi:type="MailApp">
-  <Id>e92a8324-40d8-4ce5-876d-99df6b07acf9</Id>
+  <Id>2b318627-2f1f-46e1-98f6-743583f8421c</Id>
   <Version>1.0.9.0</Version>
-  <ProviderName>Banque de France - DRTI - ADR</ProviderName>
+  <ProviderName>Banque de France - - ADR</ProviderName>
   <DefaultLocale>fr-FR</DefaultLocale>
   <DisplayName DefaultValue="ADR Outlook Suite"/>
-  <Description DefaultValue="Portail Outlook Banque de France - 9 modules VSTO migrés Web Add-in"/>
+  <Description DefaultValue="Portail Outlook Banque de France modules VSTO vers Web Add-in"/>
   <IconUrl DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/icon-64.png"/>
   <HighResolutionIconUrl DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/icon-128.png"/>
   <SupportUrl DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/support.html"/>

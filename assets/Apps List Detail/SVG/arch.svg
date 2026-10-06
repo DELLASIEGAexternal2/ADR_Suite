@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="300" viewBox="0 0 1000 300">
+
+    <defs>
+        <linearGradient id="dbGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#2F6FB8"/>
+            <stop offset="100%" stop-color="#6BB6FF"/>
+        </linearGradient>
+    </defs>
+
+    <!-- Fonction base de données -->
+    <g id="db">
+        <ellipse cx="0" cy="0" rx="80" ry="30" fill="url(#dbGrad)"/>
+        <path d="M-80,0 L-80,40 C-80,56 -44,70 0,70 C44,70 80,56 80,40 L80,0"
+              fill="url(#dbGrad)"/>
+        <ellipse cx="0" cy="40" rx="80" ry="30" fill="url(#dbGrad)"/>
+
+        <path d="M-80,40 L-80,80 C-80,96 -44,110 0,110 C44,110 80,96 80,80 L80,40"
+              fill="url(#dbGrad)"/>
+        <ellipse cx="0" cy="80" rx="80" ry="30" fill="url(#dbGrad)"/>
+
+        <path d="M-80,80 L-80,120 C-80,136 -44,150 0,150 C44,150 80,136 80,120 L80,80"
+              fill="url(#dbGrad)"/>
+        <ellipse cx="0" cy="120" rx="80" ry="30" fill="url(#dbGrad)"/>
+    </g>
+
+    <!-- ANNULÉ -->
+    <g transform="translate(120,80)">
+        #db
+        <text x="0" y="210" text-anchor="middle"
+              font-size="28" font-family="Segoe UI"
+              fill="black">Annulé</text>
+    </g>
+
+    <!-- INDISPONIBLE -->
+    <g transform="translate(360,80)">
+        #db
+
+        <circle cx="70" cy="110" r="40" fill="#FFC928"/>
+
+        <path d="M55 115
+                 A20 20 0 1 0 70 90"
+              fill="none"
+              stroke="black"
+              stroke-width="8"
+              stroke-linecap="round"/>
+
+        <polygon points="68,84 82,90 72,100"
+                 fill="black"/>
+
+        <text x="0" y="210" text-anchor="middle"
+              font-size="28" font-family="Segoe UI"
+              fill="black">Indisponible</text>
+    </g>
+
+    <!-- INSTALLÉ -->
+    <g transform="translate(610,80)">
+        #db
+
+        <circle cx="70" cy="110" r="40" fill="#62D84E"/>
+
+        <path d="M50 112 L65 127 L90 100"
+              fill="none"
+              stroke="black"
+              stroke-width="8"
+              stroke-linecap="round"
+              stroke-linejoin="round"/>
+
+        <text x="0" y="210" text-anchor="middle"
+              font-size="28" font-family="Segoe UI"
+              fill="black">Installé</text>
+    </g>
+
+    <!-- DISPONIBLE -->
+    <g transform="translate(860,80)">
+        #db
+
+        <circle cx="70" cy="110" r="40" fill="#62D84E"/>
+
+        <path d="M50 112 L65 127 L90 100"
+              fill="none"
+              stroke="black"
+              stroke-width="8"
+              stroke-linecap="round"
+              stroke-linejoin="round"/>
+
+        <text x="0" y="210" text-anchor="middle"
+              font-size="28" font-family="Segoe UI"
+              fill="black">Disponible</text>
+    </g>
+
+</svg>

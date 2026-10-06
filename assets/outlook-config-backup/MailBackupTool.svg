@@ -21,7 +21,7 @@
   </defs>
   
   <!-- Background rounded square -->
-  <rect x="64" y="64" width="100" height="100" rx="180" ry="180" fill="url(#bgGrad)"/>
+  <rect x="64" y="64" width="896" height="896" rx="180" ry="180" fill="url(#bgGrad)"/>
   
   <!-- Envelope body -->
   <g filter="url(#shadow)">

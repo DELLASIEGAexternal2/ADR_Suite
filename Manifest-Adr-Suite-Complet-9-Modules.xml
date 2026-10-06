@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ADR Outlook Suite - Manifeste Complet 9 Modules - Version Chef DSI - Vendredi -->
+<!-- Architecte: M365 Senior - React + Office.js + Graph + Entra ID + FBI + Catalyse/Nginx -->
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+          xmlns:ov="http://schemas.microsoft.com/office/mailappversionoverrides/1.0"
+          xsi:type="MailApp">
+  
+  <!-- GUID unique - NE PAS changer après déploiement Integrated Apps sinon tu perds les affectations -->
+  <Id>d8d1355c-1bc4-4c3a-91a9-20a7616b147e</Id>
+  <Version>1.0.9.0</Version>
+  <ProviderName>Banque de France - DRTI - DSCO - ADR</ProviderName>
+  <DefaultLocale>fr-FR</DefaultLocale>
+  <DisplayName DefaultValue="ADR Outlook Suite"/>
+  <Description DefaultValue="Plateforme unique ADR Banque de France - Migration VSTO vers Web Add-ins - 9 modules : Hérisson, Mailing, Retour Mailing, Mes Archives, QuiEstCe, Absences, Syndicats, Déconnexion, Signature & Chiffrement. Compatible New Outlook, OWA, Desktop, Mobile. SSO Entra ID + FBI, hébergement Catalyse/Nginx, VIP intern-tlwrk-mobil-waccs"/>
+  
+  <!-- ICONES - URLs publiques HTTPS obligatoires pour Integrated Apps - Remplace par ton Nginx Catalyse -->
+  <IconUrl DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/icon-64.png"/>
+  <HighResolutionIconUrl DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/icon-128.png"/>
+  <SupportUrl DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/support.html"/>
+
+  <AppDomains>
+    <AppDomain>https://dellasiegaexternal2.github.io</AppDomain>
+    <AppDomain>https://login.microsoftonline.com</AppDomain>
+    <AppDomain>https://login.microsoft.com</AppDomain>
+  </AppDomains>
+
+  <Hosts><Host Name="Mailbox"/></Hosts>
+  <Requirements><Sets><Set Name="Mailbox" MinVersion="1.8"/></Sets></Requirements>
+
+  <FormSettings>
+    <Form xsi:type="ItemRead">
+      <DesktopSettings>
+        <SourceLocation DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/taskpane.html"/>
+        <RequestedHeight>650</RequestedHeight>
+      </DesktopSettings>
+    </Form>
+  </FormSettings>
+
+  <Permissions>ReadWriteMailbox</Permissions>
+  <Rule xsi:type="RuleCollection" Mode="Or">
+    <Rule xsi:type="ItemIs" ItemType="Message" FormType="Read"/>
+    <Rule xsi:type="ItemIs" ItemType="Message" FormType="Edit"/>
+    <Rule xsi:type="ItemIs" ItemType="Appointment" FormType="Read"/>
+    <Rule xsi:type="ItemIs" ItemType="Appointment" FormType="Edit"/>
+  </Rule>
+
+  <!-- VERSION OVERRIDES - C'est ici que tu fais le menu complet -->
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides" xsi:type="VersionOverridesV1_0">
+    
+    <!-- SSO Entra ID + FBI - App Registration BDF-M365-WebAddins-Platform -->
+    <WebApplicationInfo>
+      <Id>e92a8324-40d8-4ce5-876d-99df6b07acf9</Id>
+      <Resource>api://dellasiegaexternal2.github.io/e92a8324-40d8-4ce5-876d-99df6b07acf9</Resource>
+      <Scopes>
+        <Scope>openid</Scope><Scope>profile</Scope><Scope>email</Scope>
+        <Scope>User.Read</Scope><Scope>User.Read.All</Scope>
+        <Scope>People.Read.All</Scope><Scope>Presence.Read.All</Scope>
+        <Scope>Mail.Read</Scope><Scope>Mail.ReadWrite</Scope><Scope>Mail.Send</Scope>
+        <Scope>Calendars.Read</Scope><Scope>Calendars.Read.Shared</Scope>
+        <Scope>Group.Read.All</Scope><Scope>Directory.Read.All</Scope>
+        <Scope>Places.Read.All</Scope>
+      </Scopes>
+    </WebApplicationInfo>
+
+    <Requirements><bt:Sets DefaultMinVersion="1.8"><bt:Set Name="Mailbox"/></bt:Sets></Requirements>
+
+    <Hosts>
+      <Host xsi:type="MailHost">
+        
+        <!-- DESKTOP + WEB + NEW OUTLOOK -->
+        <DesktopFormFactor>
+          <FunctionFile resid="Commands.Url"/>
+
+          <!-- 1. MENU EN LECTURE DE MAIL - Pour Hérisson, QuiEstCe, Archives, Absences -->
+          <ExtensionPoint xsi:type="MessageReadCommandSurface">
+            <OfficeTab id="TabDefault">
+              <Group id="ADR.Group.Read">
+                <Label resid="ADR.Group.Label"/>
+                <Control xsi:type="Menu" id="ADR.Menu.Read">
+                  <Label resid="ADR.Menu.Label"/>
+                  <Supertip><Title resid="ADR.Menu.Label"/><Description resid="ADR.Menu.Tooltip"/></Supertip>
+                  <Icon><bt:Image size="16" resid="Icon.16x16"/><bt:Image size="32" resid="Icon.32x32"/><bt:Image size="80" resid="Icon.80x80"/></Icon>
+                  <Items>
+                    <Item id="Herisson.Read"><Label resid="Herisson.Label"/><Supertip><Title resid="Herisson.Label"/><Description resid="Herisson.Tooltip"/></Supertip><Icon><bt:Image size="16" resid="Icon.Herisson.16"/><bt:Image size="32" resid="Icon.Herisson.32"/><bt:Image size="80" resid="Icon.Herisson.80"/></Icon><Action xsi:type="ShowTaskpane"><SourceLocation resid="Taskpane.Url.Herisson"/></Action></Item>
+                    <Item id="QuiEstCe.Read"><Label resid="QuiEstCe.Label"/><Supertip><Title resid="QuiEstCe.Label"/><Description resid="QuiEstCe.Tooltip"/></Supertip><Icon><bt:Image size="16" resid="Icon.QuiEstCe.16"/><bt:Image size="32" resid="Icon.QuiEstCe.32"/><bt:Image size="80" resid="Icon.QuiEstCe.80"/></Icon><Action xsi:type="ShowTaskpane"><SourceLocation resid="Taskpane.Url.QuiEstCe"/></Action></Item>
+                    <Item id="MesArchives.Read"><Label resid="MesArchives.Label"/><Supertip><Title resid="MesArchives.Label"/><Description resid="MesArchives.Tooltip"/></Supertip><Icon><bt:Image size="16" resid="Icon.Archives.16"/><bt:Image size="32" resid="Icon.Archives.32"/><bt:Image size="80" resid="Icon.Archives.80"/></Icon><Action xsi:type="ShowTaskpane"><SourceLocation resid="Taskpane.Url.MesArchives"/></Action></Item>
+                    <Item id="Absences.Read"><Label resid="Absences.Label"/><Supertip><Title resid="Absences.Label"/><Description resid="Absences.Tooltip"/></Supertip><Icon><bt:Image size="16" resid="Icon.Absences.16"/><bt:Image size="32" resid="Icon.Absences.32"/><bt:Image size="80" resid="Icon.Absences.80"/></Icon><Action xsi:type="ShowTaskpane"><SourceLocation resid="Taskpane.Url.Absences"/></Action></Item>
+                    <Item id="Syndicats.Read"><Label resid="Syndicats.Label"/><Supertip><Title resid="Syndicats.Label"/><Description resid="Syndicats.Tooltip"/></Supertip><Icon><bt:Image size="16" resid="Icon.Syndicats.16"/><bt:Image size="32" resid="Icon.Syndicats.32"/><bt:Image size="80" resid="Icon.Syndicats.80"/></Icon><Action xsi:type="ShowTaskpane"><SourceLocation resid="Taskpane.Url.Syndicats"/></Action></Item>
+                    <Item id="RetourMailing.Read"><Label resid="RetourMailing.Label"/><Supertip><Title resid="RetourMailing.Label"/><Description resid="RetourMailing.Tooltip"/></Supertip><Icon><bt:Image size="16" resid="Icon.Retour.16"/><bt:Image size="32" resid="Icon.Retour.32"/><bt:Image size="80" resid="Icon.Retour.80"/></Icon><Action xsi:type="ShowTaskpane"><SourceLocation resid="Taskpane.Url.Retour"/></Action></Item>
+                  </Items>
+                </Control>
+              </Group>
+            </OfficeTab>
+          </ExtensionPoint>
+
+          <!-- 2. MENU EN COMPOSITION DE MAIL - Pour Mailing, Déconnexion, Signature -->
+          <ExtensionPoint xsi:type="MessageComposeCommandSurface">
+            <OfficeTab id="TabDefault">
+              <Group id="ADR.Group.Compose">
+                <Label resid="ADR.Group.Label"/>
+                <Control xsi:type="Menu" id="ADR.Menu.Compose">
+                  <Label resid="ADR.Menu.Label"/>
+                  <Supertip><Title resid="ADR.Menu.Label"/><Description resid="ADR.Menu.Tooltip"/></Supertip>
+                  <Icon><bt:Image size="16" resid="Icon.16x16"/><bt:Image size="32" resid="Icon.32x32"/><bt:Image size="80" resid="Icon.80x80"/></Icon>
+                  <Items>
+                    <Item id="Mailing.Compose"><Label resid="Mailing.Label"/><Supertip><Title resid="Mailing.Label"/><Description resid="Mailing.Tooltip"/></Supertip><Icon><bt:Image size="16" resid="Icon.Mailing.16"/><bt:Image size="32" resid="Icon.Mailing.32"/><bt:Image size="80" resid="Icon.Mailing.80"/></Icon><Action xsi:type="ShowTaskpane"><SourceLocation resid="Taskpane.Url.Mailing"/></Action></Item>
+                    <Item id="Deconnexion.Compose"><Label resid="Deconnexion.Label"/><Supertip><Title resid="Deconnexion.Label"/><Description resid="Deconnexion.Tooltip"/></Supertip><Icon><bt:Image size="16" resid="Icon.Deconnexion.16"/><bt:Image size="32" resid="Icon.Deconnexion.32"/><bt:Image size="80" resid="Icon.Deconnexion.80"/></Icon><Action xsi:type="ShowTaskpane"><SourceLocation resid="Taskpane.Url.Deconnexion"/></Action></Item>
+                    <Item id="Signature.Compose"><Label resid="Signature.Label"/><Supertip><Title resid="Signature.Label"/><Description resid="Signature.Tooltip"/></Supertip><Icon><bt:Image size="16" resid="Icon.Signature.16"/><bt:Image size="32" resid="Icon.Signature.32"/><bt:Image size="80" resid="Icon.Signature.80"/></Icon><Action xsi:type="ShowTaskpane"><SourceLocation resid="Taskpane.Url.Signature"/></Action></Item>
+                    <Item id="Syndicats.Compose"><Label resid="Syndicats.Label"/><Supertip><Title resid="Syndicats.Label"/><Description resid="Syndicats.Tooltip"/></Supertip><Icon><bt:Image size="16" resid="Icon.Syndicats.16"/><bt:Image size="32" resid="Icon.Syndicats.32"/><bt:Image size="80" resid="Icon.Syndicats.80"/></Icon><Action xsi:type="ShowTaskpane"><SourceLocation resid="Taskpane.Url.Syndicats"/></Action></Item>
+                  </Items>
+                </Control>
+              </Group>
+            </OfficeTab>
+          </ExtensionPoint>
+
+          <!-- 3. MENU EN RDV - Pour Absences -->
+          <ExtensionPoint xsi:type="AppointmentOrganizerCommandSurface">
+            <OfficeTab id="TabDefault">
+              <Group id="ADR.Group.Appointment">
+                <Label resid="ADR.Group.Label"/>
+                <Control xsi:type="Menu" id="ADR.Menu.Appointment">
+                  <Label resid="ADR.Menu.Label"/><Supertip><Title resid="ADR.Menu.Label"/><Description resid="ADR.Menu.Tooltip"/></Supertip>
+                  <Icon><bt:Image size="16" resid="Icon.16x16"/><bt:Image size="32" resid="Icon.32x32"/><bt:Image size="80" resid="Icon.80x80"/></Icon>
+                  <Items>
+                    <Item id="Absences.Appointment"><Label resid="Absences.Label"/><Supertip><Title resid="Absences.Label"/><Description resid="Absences.Tooltip"/></Supertip><Icon><bt:Image size="16" resid="Icon.Absences.16"/><bt:Image size="32" resid="Icon.Absences.32"/><bt:Image size="80" resid="Icon.Absences.80"/></Icon><Action xsi:type="ShowTaskpane"><SourceLocation resid="Taskpane.Url.Absences"/></Action></Item>
+                    <Item id="QuiEstCe.Appointment"><Label resid="QuiEstCe.Label"/><Supertip><Title resid="QuiEstCe.Label"/><Description resid="QuiEstCe.Tooltip"/></Supertip><Icon><bt:Image size="16" resid="Icon.QuiEstCe.16"/><bt:Image size="32" resid="Icon.QuiEstCe.32"/><bt:Image size="80" resid="Icon.QuiEstCe.80"/></Icon><Action xsi:type="ShowTaskpane"><SourceLocation resid="Taskpane.Url.QuiEstCe"/></Action></Item>
+                  </Items>
+                </Control>
+              </Group>
+            </OfficeTab>
+          </ExtensionPoint>
+
+        </DesktopFormFactor>
+      </Host>
+    </Hosts>
+
+    <Resources>
+      <bt:Images>
+        <!-- Icons génériques - Remplace par tes PNG Catalyse -->
+        <bt:Image id="Icon.16x16" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/icon-16.png"/>
+        <bt:Image id="Icon.32x32" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/icon-32.png"/>
+        <bt:Image id="Icon.80x80" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/icon-80.png"/>
+        <bt:Image id="Icon.Herisson.16" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/herisson-16.png"/>
+        <bt:Image id="Icon.Herisson.32" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/herisson-32.png"/>
+        <bt:Image id="Icon.Herisson.80" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/herisson-80.png"/>
+        <bt:Image id="Icon.Mailing.16" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/mailing-16.png"/>
+        <bt:Image id="Icon.Mailing.32" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/mailing-32.png"/>
+        <bt:Image id="Icon.Mailing.80" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/mailing-80.png"/>
+        <bt:Image id="Icon.Retour.16" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/retour-16.png"/>
+        <bt:Image id="Icon.Retour.32" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/retour-32.png"/>
+        <bt:Image id="Icon.Retour.80" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/retour-80.png"/>
+        <bt:Image id="Icon.Archives.16" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/archives-16.png"/>
+        <bt:Image id="Icon.Archives.32" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/archives-32.png"/>
+        <bt:Image id="Icon.Archives.80" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/archives-80.png"/>
+        <bt:Image id="Icon.QuiEstCe.16" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/quiestce-16.png"/>
+        <bt:Image id="Icon.QuiEstCe.32" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/quiestce-32.png"/>
+        <bt:Image id="Icon.QuiEstCe.80" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/quiestce-80.png"/>
+        <bt:Image id="Icon.Absences.16" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/absences-16.png"/>
+        <bt:Image id="Icon.Absences.32" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/absences-32.png"/>
+        <bt:Image id="Icon.Absences.80" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/absences-80.png"/>
+        <bt:Image id="Icon.Syndicats.16" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/syndicats-16.png"/>
+        <bt:Image id="Icon.Syndicats.32" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/syndicats-32.png"/>
+        <bt:Image id="Icon.Syndicats.80" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/syndicats-80.png"/>
+        <bt:Image id="Icon.Deconnexion.16" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/deconnexion-16.png"/>
+        <bt:Image id="Icon.Deconnexion.32" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/deconnexion-32.png"/>
+        <bt:Image id="Icon.Deconnexion.80" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/deconnexion-80.png"/>
+        <bt:Image id="Icon.Signature.16" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/signature-16.png"/>
+        <bt:Image id="Icon.Signature.32" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/signature-32.png"/>
+        <bt:Image id="Icon.Signature.80" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/signature-80.png"/>
+      </bt:Images>
+
+      <bt:Urls>
+        <bt:Url id="Commands.Url" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/commands.html"/>
+        <!-- URLs Taskpane avec routing par module - Pour React Router -->
+        <bt:Url id="Taskpane.Url" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/taskpane.html"/>
+        <bt:Url id="Taskpane.Url.Herisson" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/taskpane.html?module=herisson"/>
+        <bt:Url id="Taskpane.Url.Mailing" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/taskpane.html?module=mailing"/>
+        <bt:Url id="Taskpane.Url.Retour" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/taskpane.html?module=retour"/>
+        <bt:Url id="Taskpane.Url.MesArchives" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/taskpane.html?module=archives"/>
+        <bt:Url id="Taskpane.Url.QuiEstCe" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/taskpane.html?module=quiestce"/>
+        <bt:Url id="Taskpane.Url.Absences" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/taskpane.html?module=absences"/>
+        <bt:Url id="Taskpane.Url.Syndicats" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/taskpane.html?module=syndicats"/>
+        <bt:Url id="Taskpane.Url.Deconnexion" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/taskpane.html?module=deconnexion"/>
+        <bt:Url id="Taskpane.Url.Signature" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/taskpane.html?module=signature"/>
+      </bt:Urls>
+
+      <bt:ShortStrings>
+        <bt:String id="ADR.Group.Label" DefaultValue="ADR Suite"/>
+        <bt:String id="ADR.Menu.Label" DefaultValue="ADR Outlook Suite"/>
+        <bt:String id="Herisson.Label" DefaultValue="📧 Hérisson"/>
+        <bt:String id="Mailing.Label" DefaultValue="📨 Mailing"/>
+        <bt:String id="RetourMailing.Label" DefaultValue="📬 Retour Mailing"/>
+        <bt:String id="MesArchives.Label" DefaultValue="🗄️ Mes Archives"/>
+        <bt:String id="QuiEstCe.Label" DefaultValue="👤 QuiEstCe"/>
+        <bt:String id="Absences.Label" DefaultValue="📅 Recherche Absences"/>
+        <bt:String id="Syndicats.Label" DefaultValue="👥 Syndicats"/>
+        <bt:String id="Deconnexion.Label" DefaultValue="🕒 Droit Déconnexion"/>
+        <bt:String id="Signature.Label" DefaultValue="🔐 Signature"/>
+      </bt:ShortStrings>
+
+      <bt:LongStrings>
+        <bt:String id="ADR.Menu.Tooltip" DefaultValue="Plateforme unique ADR Banque de France - 9 modules VSTO migrés en Web Add-in - SSO Entra ID + FBI - Catalyse/Nginx - VIP intern-tlwrk-mobil-waccs"/>
+        <bt:String id="Herisson.Label" DefaultValue="Signaler un mail suspect"/>
+        <bt:String id="Herisson.Tooltip" DefaultValue="Hérisson - Signalement courriels suspects vers SOC - Office.js item + Graph POST /sendMail - Remplace VSTO MailSuspect"/>
+        <bt:String id="Mailing.Label" DefaultValue="Mailing - Personnalisation"/>
+        <bt:String id="Mailing.Tooltip" DefaultValue="Mailing - Personnalisation mails et PJ - displayNewMessageForm() + Graph Mail.Send - Remplace ADR Solution Mailing"/>
+        <bt:String id="RetourMailing.Label" DefaultValue="Retour Mailing"/>
+        <bt:String id="RetourMailing.Tooltip" DefaultValue="Traitement retours mailing - Classement catégories - Graph GET /messages + mailFolders"/>
+        <bt:String id="MesArchives.Label" DefaultValue="Mes Archives PST"/>
+        <bt:String id="MesArchives.Tooltip" DefaultValue="Mes Archives - Consultation état archives STOCOBJ - Office.js userProfile.emailAddress - Cible Online Archive"/>
+        <bt:String id="QuiEstCe.Label" DefaultValue="QuiEstCe Teams"/>
+        <bt:String id="QuiEstCe.Tooltip" DefaultValue="QuiEstCe - Profil + présence Teams - Graph GET /users/{id}/presence - Remplace VSTO QuiEstCe.exe"/>
+        <bt:String id="Absences.Label" DefaultValue="Recherche Absences"/>
+        <bt:String id="Absences.Tooltip" DefaultValue="Recherche Absences - Disponibilités Outlook - Graph POST /getSchedule + findMeetingTimes + Places API"/>
+        <bt:String id="Syndicats.Label" DefaultValue="Listes Syndicats"/>
+        <bt:String id="Syndicats.Tooltip" DefaultValue="Syndicats - Listes diffusion à partir agents + désinscriptions - Graph GET /groups/members - RGPD"/>
+        <bt:String id="Deconnexion.Label" DefaultValue="Droit Déconnexion"/>
+        <bt:String id="Deconnexion.Tooltip" DefaultValue="Droit Déconnexion - Contrôle horaires envoi - Version POC + cible Transport Rules + Purview DLP"/>
+        <bt:String id="Signature.Label" DefaultValue="Signature & Chiffrement"/>
+        <bt:String id="Signature.Tooltip" DefaultValue="Signature & Chiffrement - Paramétrage Outlook + S/MIME - Cible PKI central + Intune"/>
+      </bt:LongStrings>
+    </Resources>
+  </VersionOverrides>
+</OfficeApp>

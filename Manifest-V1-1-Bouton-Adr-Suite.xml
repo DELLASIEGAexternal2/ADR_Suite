@@ -10,8 +10,8 @@
   <DefaultLocale>fr-FR</DefaultLocale>
   <DisplayName DefaultValue="ADR Outlook Suite"/>
   <Description DefaultValue="Portail Outlook Banque de France modules VSTO vers Web Add-in"/>
-  <IconUrl DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/icon-64.png"/>
-  <HighResolutionIconUrl DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/icon-128.png"/>
+  <IconUrl DefaultValue="https://dellasiegaexternal2.github.io/ADR_Suite/assets/ArchiveSyncOutline.svg"/>
+  <HighResolutionIconUrl DefaultValue="https://dellasiegaexternal2.github.io/ADR_Suite/assets/ArchiveSyncOutline.svg"/>
   <SupportUrl DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/support.html"/>
   <AppDomains>
     <AppDomain>https://dellasiegaexternal2.github.io</AppDomain>
@@ -91,9 +91,9 @@
     </Hosts>
     <Resources>
       <bt:Images>
-        <bt:Image id="Icon.16x16" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/icon-16.png"/>
-        <bt:Image id="Icon.32x32" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/icon-32.png"/>
-        <bt:Image id="Icon.80x80" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/assets/icon-80.png"/>
+        <bt:Image id="Icon.16x16" DefaultValue="https://dellasiegaexternal2.github.io/ADR_Suite/assets/ArchiveSyncOutline.svg"/>
+        <bt:Image id="Icon.32x32" DefaultValue="https://dellasiegaexternal2.github.io/ADR_Suite/assets/ArchiveSyncOutline.svg"/>
+        <bt:Image id="Icon.80x80" DefaultValue="https://dellasiegaexternal2.github.io/ADR_Suite/assets/ArchiveSyncOutline.svg"/>
       </bt:Images>
       <bt:Urls>
         <bt:Url id="Commands.Url" DefaultValue="https://dellasiegaexternal2.github.io/adr-suite/commands.html"/>
@@ -104,7 +104,7 @@
         <bt:String id="ADR.Button.Label" DefaultValue="ADR Suite"/>
       </bt:ShortStrings>
       <bt:LongStrings>
-        <bt:String id="ADR.Button.Tooltip" DefaultValue="Portail Outlook Banque de France - 9 modules - SSO Entra ID + FBI - Catalyse/Nginx"/>
+        <bt:String id="ADR.Button.Tooltip" DefaultValue="Portail Outlook Banque de France"/>
       </bt:LongStrings>
     </Resources>
   </VersionOverrides>
